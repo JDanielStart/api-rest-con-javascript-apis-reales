@@ -72,6 +72,13 @@ function categoriesPage() {
     headerTitle.classList.add("inactive");
     movieDetailSection.classList.add("inactive");
 
+    const [_, categoryData] = location.hash.split("=");
+    const [categoryId, categoryName] = categoryData.split("-");
+
+    headerCategoryTitle.innerHTML = categoryName.replace("%20", ' ');
+
+    getMoviesByCategory(categoryId);
+    window.scroll(0, 0);
 }
 
 function movieDetailPage() {
