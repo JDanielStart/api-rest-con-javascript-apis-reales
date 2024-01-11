@@ -1,15 +1,23 @@
 searchFormBtn.addEventListener("click", () => {
-    location.hash = "#search=";
+    location.hash = `#search=${searchFormInput.value}`;
 });
 trendingBtn.addEventListener("click", () => {
     location.hash = "#trends";
 });
 arrowBtn.addEventListener("click", () => {
-    location.hash = "#home";
+    if (historyArr.length > 1) {
+        location.hash = historyArr[historyArr.length - 2];
+        historyArr.splice(-2,2);
+      } else {
+        historyArr.pop();
+        location.hash = "#home";
+      }
 });
 
 window.addEventListener("DOMContentLoaded", navigator, false);
 window.addEventListener("hashchange", navigator, false);
+
+let historyArr = [];
 
 function navigator() {
     console.log({ location });
@@ -29,6 +37,7 @@ function navigator() {
     else {
         homePage();
     }
+    historyArr.push(location.hash)
 }
 
 function homePage() {
@@ -98,6 +107,9 @@ function movieDetailPage() {
     headerTitle.classList.add("inactive");
     headerCategoryTitle.classList.add("inactive");
     genericSection.classList.add("inactive");
+
+    const [_, movieId] = location.hash.split("=");
+    getMovieById(movieId);
 }
 
 function searchPage() {
@@ -109,14 +121,18 @@ function searchPage() {
     arrowBtn.classList.remove("header-arrow--white");
 
     arrowBtn.classList.remove("inactive");
-    headerCategoryTitle.classList.remove("inactive");
     genericSection.classList.remove("inactive");
     searchForm.classList.remove("inactive");
     
+    headerCategoryTitle.classList.add("inactive");
     categoriesPreviewSection.classList.add("inactive");
     trendingPreviewSection.classList.add("inactive");
     headerTitle.classList.add("inactive");
     movieDetailSection.classList.add("inactive");
+
+    const [_, query] = location.hash.split("=");
+    getMoviesBySearch(query);
+
 }
 
 function trendsPage() {
@@ -136,5 +152,8 @@ function trendsPage() {
     trendingPreviewSection.classList.add("inactive");
     headerTitle.classList.add("inactive");
     movieDetailSection.classList.add("inactive");
+
+    headerCategoryTitle.innerHTML = "Tendencias";
     
+    getTrendingMovies();
 }
