@@ -18,8 +18,11 @@ const lazyLoader = new IntersectionObserver( (entries) => {
     })
 });
 
-function createMovies(movies, container) {
-    container.innerHTML = "";
+function createMovies(movies, container, clean = true) {
+
+    if (clean) {
+        container.innerHTML = "";
+    }
 
     movies.forEach(movie => {
 
@@ -87,7 +90,6 @@ async function getTrendingMovies() {
     const data = await rest.json(); */
 
     const { data } = await api("trending/movie/day");
-
     const movies = data.results;
 
     createMovies(movies, genericSection);
@@ -159,4 +161,28 @@ async function getRelatedMoviesById(id) {
     const relatedMovies = data.results;
 
     createMovies(relatedMovies, relatedMoviesContainer);
+}
+
+async function getPaginatedTrendingMovies() {
+
+    const {
+        scrollTop,
+        scrollHeight,
+        clientHeight
+    } = document.documentElement;
+
+    const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 15);
+
+    if (scrollIsBottom) {
+        page++;
+
+        const { data } = await api("trending/movie/day", {
+            params: {
+                page
+            }
+        });
+        const movies = data.results;
+
+        createMovies(movies, genericSection, false);
+    }
 }
