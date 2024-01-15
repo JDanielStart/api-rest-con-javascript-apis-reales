@@ -119,6 +119,7 @@ async function getMoviesByCategory(id) {
     });
 
     const movies = data.results;
+    maxPage = data.total_pages;
 
     createMovies(movies, genericSection);
 }
@@ -188,5 +189,61 @@ async function getPaginatedTrendingMovies() {
         const movies = data.results;
 
         createMovies(movies, genericSection, false);
+    }
+}
+
+function getPaginatedMoviesBySearch(query) {
+    return async function () {
+        const {
+            scrollTop,
+            scrollHeight,
+            clientHeight
+        } = document.documentElement;
+    
+        const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 15);
+    
+        const pageIsMax = page <= maxPage;
+    
+        if (scrollIsBottom && pageIsMax) {
+            page++;
+    
+            const { data } = await api("search/movie", {
+                params: {
+                    query,
+                    page
+                }
+            });
+            const movies = data.results;
+    
+            createMovies(movies, genericSection, false);
+        }
+    }
+}
+
+function getPaginatedMoviesByCategory(id) {
+    return async function () {
+        const {
+            scrollTop,
+            scrollHeight,
+            clientHeight
+        } = document.documentElement;
+    
+        const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 15);
+    
+        const pageIsMax = page <= maxPage;
+    
+        if (scrollIsBottom && pageIsMax) {
+            page++;
+    
+            const { data } = await api("discover/movie", {
+                params: {
+                    with_genres: id,
+                    page
+                }
+            });
+            const movies = data.results;
+    
+            createMovies(movies, genericSection, false);
+        }
     }
 }

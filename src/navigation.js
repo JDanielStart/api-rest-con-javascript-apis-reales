@@ -51,6 +51,7 @@ function navigator() {
     if (infiniteScroll) {
         window.addEventListener("scroll", infiniteScroll);
     }
+    window.scroll(0, 0);
 }
 
 function homePage() {
@@ -100,7 +101,8 @@ function categoriesPage() {
     headerCategoryTitle.innerHTML = categoryName.replace("%20", ' ');
 
     getMoviesByCategory(categoryId);
-    window.scroll(0, 0);
+
+    infiniteScroll = getPaginatedMoviesByCategory(categoryId);
 }
 
 function movieDetailPage() {
@@ -145,6 +147,8 @@ function searchPage() {
 
     const [_, query] = location.hash.split("=");
     getMoviesBySearch(query);
+
+    infiniteScroll = getPaginatedMoviesBySearch(query);
 
 }
 
