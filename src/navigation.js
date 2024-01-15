@@ -1,3 +1,4 @@
+let maxPage;
 let page = 0;
 let infiniteScroll;
 let historyArr = [];
