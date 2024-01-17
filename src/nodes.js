@@ -6,6 +6,7 @@ const trendingPreviewSection = selectElement('#trendingPreview');
 const categoriesPreviewSection = selectElement('#categoriesPreview');
 const genericSection = selectElement('#genericList');
 const movieDetailSection = selectElement('#movieDetail');
+const likedMoviesSection = selectElement("#liked");
 
 // Lists & Containers
 const searchForm = selectElement('#searchForm');
@@ -13,6 +14,7 @@ const trendingMoviesPreviewList = selectElement('.trendingPreview-movieList');
 const categoriesPreviewList = selectElement('.categoriesPreview-list');
 const movieDetailCategoriesList = selectElement('#movieDetail .categories-list');
 const relatedMoviesContainer = selectElement('.relatedMovies-scrollContainer');
+const likedMoviesListArticle = selectElement(".liked-movieList");
 
 // Elements
 const headerTitle = selectElement('.header-title');
